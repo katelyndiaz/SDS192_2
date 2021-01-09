@@ -1,0 +1,136 @@
+---
+title: "Graphics with ggplot"
+author: "Katelyn Diaz"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+housing <- read.csv("http://www.science.smith.edu/~jcrouser/SDS192/landdata-states.csv")
+glimpse(housing)
+```
+
+### Exercise 1
+##### Create a scatterplot of the value of each home in the first quarter of 2013 as a function of the value of the land.
+
+
+```{r message = FALSE}
+# Insert code for Exercise 1 here
+hp2013Q1 <- housing %>%
+  filter(Date == 2013.25)
+ggplot(hp2013Q1, aes(y = Home.Value, x = Land.Value)) +
+  geom_point() +
+  geom_line()
+
+```
+
+### Exercise 2
+##### Store the scatterplot that you created in the previous exercise as an object called home_value_plot.
+
+
+```{r message = FALSE}
+# Insert code for Exercise 2 here
+home_value_plot <- ggplot(hp2013Q1, aes(y = Home.Value, x = Land.Value)) +
+  geom_point() +
+  geom_line()
+```
+### Exercise 3
+##### Does it makes sense to connect the observations with geom_line() in this case? Do the lines help us understand the connections between the observations better? What do the lines represent?
+
+It doesn't make sense, as it isn't like the values increasing or decreasing, as each plot is a different house and therefore not connected. Therefore, the lines technically don't represent anything, as the actual data plots are not connected. 
+
+Exercise 4: In your home_value_plot, map color to the cost of the structure and show your scatterplot.
+```{r messsage = FALSE}
+# Insert code for Exercise 1 here
+home_value_plot <- ggplot(hp2013Q1, aes(y = Home.Value, x = Land.Value, color =Structure.Cost)) +
+  geom_point()
+
+home_value_plot +
+  geom_point(aes(shape = region))
+home_value_plot
+
+home_plot <- ggplot(housing, aes(y = State, x = Home.Price.Index)) + 
+  geom_point(aes(color = Date),
+             alpha = 0.3,
+             size = 1.5,
+             position = position_jitter(width = 0, height = 0.25))
+
+home_plot + 
+  scale_color_continuous(breaks = c(1975.25, 1994.25, 2013.25),
+                         labels = c(1971, 1994, 2013))
+
+#home_plot +
+#  scale_color_gradient2(breaks = c(1975.25, 1994.25, 2013.25),
+  #                      labels = c(1971, 1994, 2013),
+    #                    low = "blue",
+   #                     high = "red",
+           #             mid = "gray60",
+         #               midpoint = 1994.25)
+#^ to change the color to purple and pink
+
+#home_value_plot <- ggplot(hp2013Q1, aes(y=Home.Value))
+#home_value_plot <- home_value_plot +
+ # aes(color = Structure.Cost) 
+ 
+```
+
+### Exercise 5:
+##### Since a home price index of 1 is an important benchmark, it is worth highlighting as contextual reference in our plot. Use geom_vline() to add a dotted, black, vertical line to the plot we created above.
+
+```{r message = FALSE}
+# Insert code for Exercise 1 here
+home_plot +
+  geom_vline(xintercept = 1, linetype = "longdash", color = "pink")
+
+```
+### Exercise 6:
+##### Recall that layers in ggplot2 are added sequentially. How would you put the dotted vertical line you created in the previous exercise behind the data values?
+
+```{r message = FALSE}
+# Insert code for Exercise 1 here
+home_plot <- ggplot(housing, aes(y = State, x = Home.Price.Index)) + 
+  geom_vline(xintercept = 1, linetype = "longdash", color = "black") +
+  geom_point(aes(color = Date),
+             alpha = 0.3,
+             size = 1.5,
+             position = position_jitter(width = 0, height = 0.25))
+
+home_plot + 
+  scale_color_continuous(breaks = c(1975.25, 1994.25, 2013.25),
+                         labels = c(1971, 1994, 2013))
+
+```
+### Exercise 7
+##### Use a facet_wrap to create a data graphic of your choice that illustrates something interesting about home prices.
+
+```{r message = FALSE}
+# Insert code for Exercise 1 here
+# home_plot <- ggplot(housing, aes(y = State, x = Home.Price.Index)) + 
+#   facet_wrap() +
+#   geom_point(aes(color = Date),
+#              alpha = 0.3,
+#              size = 1.5,
+#              position = position_jitter(width = 0, height = 0.25))
+# 
+# home_plot + 
+#   scale_color_continuous(breaks = c(1975.25, 1994.25, 2013.25),
+#                          labels = c(1971, 1994, 2013))
+
+Qrtr_plot <- ggplot(housing, aes(x = Year, y = Land.Value)) +
+  ggtitle("Why the later years were better to sell your home") +
+  scale_color_distiller(palette = "PuRd", direction = 1) +
+  geom_line(aes(color = Home.Value )) +
+  facet_wrap(~Qrtr) 
+Qrtr_plot
+  
+
+# # year, land value
+# qrtr
+
+#region = facet
+```
+
+...
+
