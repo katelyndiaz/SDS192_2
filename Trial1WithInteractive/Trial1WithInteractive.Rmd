@@ -1,0 +1,93 @@
+---
+output: learnr::tutorial
+html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    fig_width: 7
+    fig_height: 6
+    fig_caption: true
+    theme: lumen
+    df_print: paged
+    code_folding: show
+runtime: shiny_prerendered
+title: "SDS 192 Assignment"
+subtitle: "SDS 192"
+author: "Your name"
+date: "`r format(Sys.Date(), '%B %e, %Y')`"
+
+---
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(openintro)
+library(sds192)
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Section 1: Data Prep
+
+```{r load data, message=FALSE}
+marathon
+```
+
+```{r sort data, message=FALSE}
+marathon<-marathon%>%
+  arrange(year)
+```
+
+## Section 2: Plot
+```{r plotting, message=FALSE}
+marplot<-ggplot(data = marathon, aes(x = year, y = time, color= time))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~gender)+
+  labs(title="NY City Marathon Times from 1970 to 1999",
+       subtitle="Sourced from New York Road Runners Club",
+       x= "Race Year",
+       y ="First Place Run Time (Hours) ")+
+  scale_color_continuous(breaks = c(2.134,2.391,3.1447),
+                         labels = c(2.134, 2.391, 3.145),
+                         low = "red", high = "blue")
+marplot
+```
+
+
+### Test your own knowledge!
+
+* Test how well you would fare against some of these first place marathon runners! 
+
+
+```{r quiz}
+quiz(
+  question("Which package contains functions for installing other R packages?",
+    answer("base"),
+    answer("tools"),
+    answer("utils", correct = TRUE),
+    answer("codetools")
+  ),
+  question("Which of the R packages listed below are used to create plots?",
+    answer("lattice", correct = TRUE),
+    answer("tools"),
+    answer("stats"),
+    answer("grid", correct = TRUE)
+  )
+)
+```
+
+## Word count
+
+```{r word_count, message=FALSE, echo=FALSE}
+text_stats()
+```
+
+## Standards
+
+In this assignment, we attempted the following [standards](https://beanumber.github.io/sds192/standards.html):
+
+- `r standard_button("markdown")`: We met the Markdown standard because we...
+- `r standard_button("aesthetics")`: We met the Aesthetics standard because we...
+
