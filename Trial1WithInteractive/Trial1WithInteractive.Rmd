@@ -1,5 +1,6 @@
 ---
-output: learnr::tutorial
+output: 
+# learnr::tutorial
 html_document:
     toc: true
     toc_depth: 2
@@ -11,15 +12,16 @@ html_document:
     df_print: paged
     code_folding: show
 runtime: shiny_prerendered
-title: "SDS 192 Assignment"
-subtitle: "SDS 192"
-author: "Your name"
+title: "How do you compare against these historic NY Marathon first place winners?"
+subtitle: "SDS 192 Mini Project 1"
+author: "Victoria Devlin McLoughlin, Katelyn Diaz, Margot Draillard-Vandenberg"
 date: "`r format(Sys.Date(), '%B %e, %Y')`"
 
 ---
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message = FALSE}
+# install.packages("learnr")
 library(learnr)
 library(tidyverse)
 library(openintro)
@@ -55,25 +57,35 @@ marplot<-ggplot(data = marathon, aes(x = year, y = time, color= time))+
 marplot
 ```
 
+## Section 3: Test your knowledge!
 
-### Test your own knowledge!
-
-* Test how well you would fare against some of these first place marathon runners! 
+* Test your knowledge of running and how well you know you would fare against some of these first place marathon runners! 
 
 
-```{r quiz}
+```{r Questions}
 quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
+  question("What is the average speed of female marathon runners?",
+    answer("8.68 minutes/mile"),
+    answer("15 minutes/mile"),
+    answer("11.55 minutes/mile", correct = TRUE),
+    answer("10.34 miles/min")
   ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
+  question("What is the average speed of male marathon runners?",
+    answer("8.68 minutes/mile"),
+    answer("15 minutes/mile"),
+    answer("11.55 minutes/mile"),
+    answer("10.34 miles/min", correct = TRUE)
+  ),
+  question("How many miles are there in a marathon?",
+    answer("26.2 kilometers"),
+    answer("13.1 miles"),
+    answer("26.2 miles", correct = TRUE),
+    answer("5 kilometers")
+  ),
+  question("Why is there not a female winner in 1970?",
+    answer("Only one female entered and she was unable to finish", correct = TRUE),
+    answer("No females were allowed to enter"),
+    answer("The female that entered registered as male"),
   )
 )
 ```
