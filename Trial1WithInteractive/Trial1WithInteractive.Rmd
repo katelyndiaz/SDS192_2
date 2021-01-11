@@ -83,12 +83,17 @@ quiz(
     answer("5 kilometers")
   ),
   question("Why is there not a female winner in 1970?",
-    answer("Only one female entered and she was unable to finish", correct = TRUE),
+    answer("Only one female entered and she was unable to finish due to injury", correct = TRUE),
     answer("No females were allowed to enter"),
     answer("The female that entered registered as male"),
+    answer("All of the females that entered dropped out")
   )
 )
 ```
+# Section 4: Sources:
+! https://rstudio.github.io/learnr/
+
+
 
 ## Word count
 
