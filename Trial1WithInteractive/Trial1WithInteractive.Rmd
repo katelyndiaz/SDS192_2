@@ -12,7 +12,7 @@ html_document:
     df_print: paged
     code_folding: show
 runtime: shiny_prerendered
-title: "How do you compare against these historic NY Marathon first place winners?"
+title: "Virtual NYC Marathon: Run Back Through Time"
 subtitle: "SDS 192 Mini Project 1"
 author: "Victoria Devlin McLoughlin, Katelyn Diaz, Margot Draillard-Vandenberg"
 date: "`r format(Sys.Date(), '%B %e, %Y')`"
@@ -30,22 +30,33 @@ library(sds192)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Section 1: Data Prep
 
-```{r load data, message=FALSE}
+
+```{r load data (DATA PREP), message=FALSE, include = FALSE}
 marathon
-```
-
-```{r sort data, message=FALSE}
+# {r sort data}
 marathon<-marathon%>%
   arrange(year)
 ```
 
-## Section 2: Plot
+<<<<<<< Updated upstream
+## Section 1: Plot
+=======
+
+This year there was no world-famous New York City marathon (1). Normally, runners from all around the world would come to run across all five boroughs during the first week of November (2). A highly anticipated event, it usually brings together runners and New Yorkers alike. It was another disappointing - though necessary - cancellation in 2020. 
+
+We thought that since we all missed the race in 2020, that we could do something fun:  look back to past NYC marathons. The marathon began in 1970, starting much smaller than today. It had a budget of only $1000, a $1 entry fee, and 55 finishers (out of 127 registered)! To put that in perspective, in 2017 the entry fee was $255 and there were around 51,000 finishers. 
+
+In our blast from the past we found 29 years of data from the New York Road Runners club (organizers of the race since its start) that recorded the times of the marathon winners, both male and female, from 1970 to 1999.  We were curious to see how these times evolved over the years. 
+
+
+## Data Graphic
+>>>>>>> Stashed changes
 ```{r plotting, message=FALSE}
 marplot<-ggplot(data = marathon, aes(x = year, y = time, color= time))+
   geom_point()+
   geom_line()+
+  
   facet_wrap(~gender)+
   labs(title="NY City Marathon Times from 1970 to 1999",
        subtitle="Sourced from New York Road Runners Club",
@@ -55,11 +66,21 @@ marplot<-ggplot(data = marathon, aes(x = year, y = time, color= time))+
                          labels = c(2.134, 2.391, 3.145),
                          low = "red", high = "blue")
 marplot
+
+git_caption:"First place run time for NY Marathon from 1970 - 2000. Empty data point for females in 1970. From 1971-1975, females run time was above 2.7 hours. This drastically dropped in 1975. Following 1980, females had a more level run time, resting between 2.4 and 2.5 hours. Males were also slower in the 1970-1975 time frame, resting between 2.25 and 2.5 hours. After 1975, their run time leveled out as well, between 2.1 and 2.25 hours."
 ```
+
+As we can see - the times have gotten faster over the years. It is to note the women’s data starts in 1971 as only one woman1 entered in 1970 but did not complete the race (2). The trend line helps emphasize this - there is a clear downward slope. This doesn’t come as much of a surprise as more and more people finish the race every year there are more chances of a faster person finishing. The race also became more serious and respected every year, which probably encouraged more serious runners and more serious training for the marathon. 
+
+While there is an overall increase in speed since the start of the race there is some fluctuation in time between the years. Sometimes, the trends in the men and women’s time match up (for example from 1971-1977) while during other periods there is a mismatch. Starting in 1979 the speed for the women runners has started to plateau meanwhile, this event occurred for the male winners only 3 years earlier in 1976. 
+
+
+According to organizers the 2021 NYC Marathon is still set to go ahead, though the specifics including who the race will be open to are not yet released. The pandemic has made going for a run easier for some, but harder for others, go ahead and estimate your NYC Marathon readiness against the past race winners using the provided graph!
+
 
 ## Section 3: Test your knowledge!
 
-* Test your knowledge of running and how well you know you would fare against some of these first place marathon runners! 
+##### Test your knowledge of running and how well you know you would fare against some of these first place marathon runners! 
 
 
 ```{r Questions}
@@ -90,8 +111,28 @@ quiz(
   )
 )
 ```
+<<<<<<< Updated upstream
+<<<<<<< HEAD
 # Section 4: Sources:
 ! https://rstudio.github.io/learnr/
+=======
+## Section 4: Sources:
+ - https://rstudio.github.io/learnr/
+ - https://www.runnersworld.com/uk/training/marathon/a27787958/average-marathon-finish-time/#:~:text=What%20is%20the%20average%20pace,or%20an%2011.55%20minute%20mile.
+ - 
+ 
+>>>>>>> f07af1d645e028c952e6f43b70ce828af4a38e0e
+=======
+
+## Section 4: Sources:
+
+ - https://rstudio.github.io/learnr/
+ 
+ - https://www.runnersworld.com/uk/training/marathon/a27787958/average-marathon-finish-time/#
+ 
+ - 
+ 
+>>>>>>> Stashed changes
 
 
 
@@ -107,4 +148,5 @@ In this assignment, we attempted the following [standards](https://beanumber.git
 
 - `r standard_button("markdown")`: We met the Markdown standard because we...
 - `r standard_button("aesthetics")`: We met the Aesthetics standard because we...
+
 
