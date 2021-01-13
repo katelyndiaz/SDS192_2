@@ -1,0 +1,164 @@
+---
+runtime: shiny_prerendered
+title: "Virtual NYC Marathon: Run Back Through Time"
+subtitle: "SDS 192 Mini Project 1"
+author: "Victoria Devlin McLoughlin, Katelyn Diaz, Margot Draillard-Vandenberg"
+date: "`r format(Sys.Date(), '%B %e, %Y')`"
+output: 
+html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    fig_width: 7
+    fig_height: 6
+    fig_caption: true
+    theme: lumen
+    df_print: paged
+    code_folding: show
+editor_options: 
+  chunk_output_type: console
+---
+---
+```{r set up, include=FALSE, eval= FALSE}
+install.packages("learnr")
+```
+
+```{r setup, include=FALSE, message = FALSE,}
+library(learnr)
+library(tidyverse)
+library(openintro)
+library(sds192)
+library(lubridate)
+library(scales)
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Data and Data Manipulation:
+```{r load data (DATA PREP), message=FALSE, include=FALSE}
+marathon
+# {r sort data}
+marathon<-marathon%>%
+  arrange(year)
+```
+
+```{r time conversion, message= FALSE}
+timemin= marathon$time*60
+
+marathon<- marathon%>%
+  mutate(timemin=marathon$time*60)
+
+marathon<-marathon%>%
+  mutate(timesec=as.integer(marathon$timemin*60))
+
+marathon
+
+marathon<-marathon%>%
+  mutate(timemarathon=seconds_to_period(timesec))
+
+marathon
+
+```
+
+```{r load photo, eval = FALSE, echo=FALSE, fig.cap="Marathon Runners in 2008, taken by Thomas F. McLoughlin", out.width= '100%'}
+knitr::include_graphics("Race.jpg")
+```
+## Introduction
+
+This year there was no world-famous New York City marathon [1]. Normally, runners from world-wide come to run all five boroughs during the first week of November [2]. The highly anticipated event, brings runners and New Yorkers together. It was another disappointing - though necessary - cancellation in 2020. 
+
+We thought that since we missed the race in 2020, we could do something fun: look back at past NYC marathons. It began in 1970, with few participants. It had a budget of $1000, a $1 entry fee, and 55 finishers (out of 127 registered) [3]! To put that in perspective, in 2017 the entry fee was $255 and there were ~ 51,000 finishers [4]. This shows from start, to 1999, to present day we are talking about rather different races.
+
+In our blast from the past, we found 29 years of data from the New York Road Runners club (perpetual organizers of the race) that recorded the times of the marathon winners, both male and female, from 1970 to 1999. We were curious to see how these times evolved over the years. 
+ 
+
+
+## Data Graphic
+
+```{r plotting, message=FALSE, fig.cap = " First place run time for NY Marathon from 1970 - 2000. Empty data point for females in 1970 as there was only 1 female entree who did not complete the race [2]. From 1971-1975, females' run time was above 2 hours, 40 minutes. This drastically dropped in 1975 (shown with dashed line). Following 1979, the female run time plateaued, resting between a 2:20 and 2:35 run time. Males were also slower before the 1975, resting between 2 hours and 20 minutes, and 2 hours, 35 minutes. After 1976, their runtime also leveled out, between a runtime of 2:05 and 2:20. There is a line of best fit for both graphs, with both lines showing a downward slope of a decrease in winner's completion time, and females having a steeper downward slope, reflecting a greater degree of change."}
+marplot<-ggplot(data = marathon, aes(x = year, y = timemarathon))+
+  geom_vline(xintercept=1975,linetype="dotdash", color = “dark blue”)+
+  scale_y_time()+
+  geom_point()+
+  geom_line()+
+   geom_smooth(method = "lm") +
+  facet_wrap(~gender)+
+  labs(title="NY City Marathon Winner Times from 1970 to 1999",
+       subtitle="Sourced from New York Road Runners Club",
+       x= "Race Year",
+       y ="First Place Run Time (Hours:Min:Sec) ")
+
+
+marplot
+```
+
+As we can see - the times have gotten faster over the years. This doesn’t come as much of a surprise - during the 70s there was a running boom in the US, where more people became interested in running and it became more publicized [6]. During this time, there was an attitude to win and not just to run, creating faster win times [7].
+
+According to organizers, the 2021 NYC Marathon is set to happen, though the specifics including who the race will be open to are not yet released [5].
+
+## Test your knowledge!
+
+##### Test your knowledge of running and how much you know about marathons! 
+
+
+```{r Questions}
+quiz(
+  question("What is the average speed of female marathon runners?",
+    answer("8.68 minutes/mile"),
+    answer("15 minutes/mile"),
+    answer("11.55 minutes/mile", correct = TRUE),
+    answer("10.34 miles/min")
+  ),
+  question("What is the average speed of male marathon runners?",
+    answer("8.68 minutes/mile"),
+    answer("15 minutes/mile"),
+    answer("11.55 minutes/mile"),
+    answer("10.34 miles/min", correct = TRUE)
+  ),
+  question("How many miles are there in a marathon?",
+    answer("26.2 kilometers"),
+    answer("13.1 miles"),
+    answer("26.2 miles", correct = TRUE),
+    answer("5 kilometers")
+  ),
+  question("Why is there not a female winner in 1970?",
+    answer("Only one female entered and she was unable to finish due to injury", correct = TRUE),
+    answer("No females were allowed to enter"),
+    answer("The female that entered registered as male"),
+    answer("All of the females that entered dropped out")
+  )
+)
+```
+
+## Sources:
+
+
+- [1] https://www.nyrr.org/tcsnycmarathon/pages/2020-cancellation#:~:text=The%202020%20TCS%20New%20York,November%201%2C%20has%20been%20canceled.
+
+- [2] https://en.wikipedia.org/wiki/New_York_City_Marathon#
+
+- [3]https://www.nyrr.org/tcsnycmarathon/GetInspired/MarathonHistory
+
+
+- [4]https://www.forbes.com/sites/kurtbadenhausen/2017/11/04/nyc-marathon-2017-by-the-numbers/?sh=385d5efd41a2
+
+- [5]https://help.nyrr.org/tcsnycmarathon/s/article/applicationregistration-process2
+
+- https://rstudio.github.io/learnr/
+
+- https://www.runnersworld.com/uk/training/marathon/a27787958/average-marathon-finish-time/#
+
+## Word count
+
+```{r word_count, message=FALSE, echo=FALSE}
+text_stats()
+```
+
+## Standards
+
+In this assignment, we attempted the following [standards](https://beanumber.github.io/sds192/standards.html):
+
+- `r standard_button("markdown")`: We met the Markdown standard by excluding messages of unnecessary formatting of our data and package messages, and formatting code chunks. Additionally, we including a plot, then went above and beyond and included an image, source links, a quiz. We also made our article accessible with alt text for our data graphic. 
+- `r standard_button("aesthetics")`: We met the Aesthetics standard because we faceted our plot by gender, we used geom_point and geom_line to make the data easy to understand, we included a trend line, and we used color to make the change in time more evident. 
+- `r standard_button("context")`: We mastered the context standard because our graph easily tells the viewer of the evolution of winner’s run time in the NYC marathon, and to do so we even re-formatted the time variable.The graph is simple enough to not overwhelm but includes enough guidance to interest and lead the viewer to understand the data. 
